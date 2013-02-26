@@ -2,7 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace BowlingScorer.Test
+namespace BowlingScorer.Test.ScorerSpecs
 {
 	[TestFixture]
 	public class CalculateScore_Test
@@ -65,7 +65,7 @@ namespace BowlingScorer.Test
 		}
 
 		[Test]
-		public void Should_sum_two_subsequent_rolls_if_strike()
+		public void Should_sum_two_subsequent_rolls_if_strike_at_the_beggining_of_the_game()
 		{
 			// Arrange
 			var scorer = new Scorer();
@@ -138,7 +138,7 @@ namespace BowlingScorer.Test
 		}
 
 		[Test]
-		public void Should_allow_aditional_roll_if_strike_in_the_last_frame()
+		public void Should_allow_additional_roll_if_strike_in_the_last_frame()
 		{
 			// Arrange
 			var scorer = new Scorer();
@@ -192,7 +192,7 @@ namespace BowlingScorer.Test
 		}
 
 		[Test]
-		public void Should_allow_addtional_20th_roll_if_there_are_strike_in_the_last_frame_and_one_strike_before()
+		public void Should_allow_addtional_20Th_roll_if_there_are_strike_in_the_last_frame_and_one_strike_before()
 		{
 			// Arrange
 			var scorer = new Scorer();

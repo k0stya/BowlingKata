@@ -3,12 +3,12 @@ using System.Xml.Serialization;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace BowlingScorer.Test
+namespace BowlingScorer.Test.ScoreServiceSpecs
 {
 	[TestFixture]
 	public class LoadStatistics_Test
 	{
-		[Test]
+		[Test, Category("Integration")]
 		public void Should_load_statistics_from_file()
 		{
 			// Arrange

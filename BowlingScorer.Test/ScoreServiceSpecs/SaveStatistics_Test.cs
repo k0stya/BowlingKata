@@ -4,7 +4,7 @@ using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace BowlingScorer.Test
+namespace BowlingScorer.Test.ScoreServiceSpecs
 {
 	[TestFixture]
 	public class SaveStatistics_Test
