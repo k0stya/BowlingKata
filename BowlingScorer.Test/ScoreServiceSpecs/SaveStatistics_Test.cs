@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using FluentAssertions;
 using NSubstitute;
@@ -24,7 +25,9 @@ namespace BowlingScorer.Test.ScoreServiceSpecs
 
 			// Assert
 			repository.Received(1)
-					  .Save(statistics);
+					  .Save(Arg.Is<Frame[]>(s => 
+						  s.First().FirstRoll == statistics.First().FirstRoll
+						  && s.First().SecondRoll == statistics.First().SecondRoll));
 		}
 
 		[Test, Category("Integration")]
@@ -41,10 +44,10 @@ namespace BowlingScorer.Test.ScoreServiceSpecs
 			string path = Path.Combine(Path.GetTempPath(), "statistics.xml");
 			using (var reader = File.OpenText(path))
 			{
-				XmlSerializer serializer = new XmlSerializer(typeof(int?[]));
-				var statistics = (int?[])serializer.Deserialize(reader);
-				
-				statistics.Should().ContainSingle(s => s.HasValue, "Only one record should be saved");
+				XmlSerializer serializer = new XmlSerializer(typeof(Frame[]));
+				var statistics = (Frame[])serializer.Deserialize(reader);
+
+				statistics.Should().ContainSingle(s => s.FirstRoll.HasValue, "only one record should be saved");
 
 				reader.Close();
 			}

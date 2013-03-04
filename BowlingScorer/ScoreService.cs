@@ -21,7 +21,7 @@
 			_scorer.Roll(pins);
 		}
 
-		public int?[] GetStatistics()
+		public Frame[] GetStatistics()
 		{
 			return _scorer.GetStatistics();
 		}
@@ -33,11 +33,15 @@
 
 		public void LoadStatistics()
 		{
-			int?[] statistics = _repository.Load();
+			Frame[] statistics = _repository.Load();
 			for (int i = 0; i < statistics.Length; i++)
 			{
-				if (statistics[i].HasValue)
-					_scorer.Roll(statistics[i].Value);
+				if (statistics[i].FirstRoll.HasValue)
+					_scorer.Roll(statistics[i].FirstRoll.Value);
+				if (statistics[i].SecondRoll.HasValue)
+					_scorer.Roll(statistics[i].SecondRoll.Value);
+				if (statistics[i].ThirdRoll.HasValue)
+					_scorer.Roll(statistics[i].ThirdRoll.Value);
 			}
 		}
 	}

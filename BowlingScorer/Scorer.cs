@@ -9,6 +9,7 @@ namespace BowlingScorer
 		private readonly int?[] _statistics = new int?[21];
 		private const int MAX_NUMBER_OF_PINS = 10;
 		private const int MAX_NUMBER_OF_ROLLS = 20;
+		private const int NUMBER_OF_FRAMES = 10;
 
 		public int CalculateScore()
 		{
@@ -40,15 +41,15 @@ namespace BowlingScorer
 
 		private bool IsSpare(int currentRoll)
 		{
-			return currentRoll > 0 && _statistics[currentRoll] + _statistics[currentRoll - 1] == MAX_NUMBER_OF_PINS;
+			return currentRoll > 0 && _statistics[currentRoll] + _statistics[currentRoll - 1] == MAX_NUMBER_OF_PINS && _statistics[currentRoll].HasValue;
 		}
 
 		public void Roll(int pins)
 		{
-			if(pins < 0)
+			if (pins < 0)
 				throw new ArgumentException("Number of pins cannot be negative");
 
-			if(pins > MAX_NUMBER_OF_PINS)
+			if (pins > MAX_NUMBER_OF_PINS)
 				throw new ArgumentException("Max number of available pins is 10");
 
 			if (_currentRoll > MAX_NUMBER_OF_ROLLS - 1 + (IsAdditionalRoll(_currentRoll) ? 1 : 0))
@@ -62,9 +63,39 @@ namespace BowlingScorer
 			_currentRoll++;
 		}
 
-		public int?[] GetStatistics()
+		public Frame[] GetStatistics()
 		{
-			return _statistics;
+			Frame[] statistics = new Frame[NUMBER_OF_FRAMES];
+			int currentRoll = 0;
+			for (int i = 0; i < statistics.Length; i++)
+			{
+				statistics[i].FirstRoll = _statistics[currentRoll++];
+				statistics[i].SecondRoll = _statistics[currentRoll];
+				bool isLastFrame = IsLastFrame(currentRoll);
+				if (isLastFrame && (IsSpare(currentRoll) || IsStrike(currentRoll - 1)))
+				{
+					statistics[statistics.Length - 1].ThirdRoll = _statistics[currentRoll];
+					statistics[i].Total = statistics[statistics.Length - 1].ThirdRoll;
+				}
+				if (IsSpare(currentRoll) && !isLastFrame)
+				{
+					statistics[i].Total = statistics[i].FirstRoll + statistics[i].SecondRoll + _statistics[currentRoll + 1];
+				}
+				else if (IsStrike(currentRoll - 1) && !isLastFrame)
+				{
+					if (_statistics.Skip(currentRoll + 1).Count(s => s.HasValue) < 2)
+						break;
+					statistics[i].Total = statistics[i].FirstRoll +
+										  _statistics.Skip(currentRoll + 1).Where(s => s.HasValue).Take(2).Sum();
+				}
+				else
+				{
+					statistics[i].Total = statistics[i].FirstRoll + statistics[i].SecondRoll + 
+						(statistics[i].Total.HasValue ? statistics[i].Total : 0);
+				}
+				currentRoll++;
+			}
+			return statistics;
 		}
 
 		private bool IsAdditionalRoll(int currentRoll)

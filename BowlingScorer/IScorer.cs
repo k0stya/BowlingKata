@@ -4,6 +4,6 @@
 	{
 		int CalculateScore();
 		void Roll(int pins);
-		int?[] GetStatistics();
+		Frame[] GetStatistics();
 	}
 }

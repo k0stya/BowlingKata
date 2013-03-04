@@ -2,7 +2,7 @@
 {
 	public interface IRepository
 	{
-		void Save(int?[] statistics);
-		int?[] Load();
+		void Save(Frame[] statistics);
+		Frame[] Load();
 	}
 }
