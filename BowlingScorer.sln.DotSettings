@@ -1,0 +1,6 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=E3B2B847DD5D8649B5730D29456A6BAC/@KeyIndexDefined">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=E3B2B847DD5D8649B5730D29456A6BAC/AbsolutePath/@EntryValue">E:\Projects\Trainings\BDD\BowlingKata\BowlingKata\BowlingScorer.sln.DotSettings</s:String>
+	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileE3B2B847DD5D8649B5730D29456A6BAC/@KeyIndexDefined">True</s:Boolean>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileE3B2B847DD5D8649B5730D29456A6BAC/RelativePriority/@EntryValue">1</s:Double>
+	<s:String x:Key="/Default/Environment/UserInterface/ShortcutSchemeName/@EntryValue">None</s:String></wpf:ResourceDictionary>

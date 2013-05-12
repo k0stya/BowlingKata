@@ -65,56 +65,26 @@ namespace BowlingScorer.Test.ScorerSpecs
 		}
 
 		[Test]
-		public void Should_sum_two_subsequent_rolls_if_strike_at_the_beggining_of_the_game()
+		[TestCase(new[] {10 /*stike*/, 2, 2}, 18)]
+		[TestCase(new[] {0, 0, 10 /*stike*/, 2, 2, 1}, 19)]
+		[TestCase(new[] {0, 2, 10 /*stike*/, 2, 2, 1}, 21)]
+		[TestCase(new[] {10 /*stike*/, 10 /*stike*/, 2, 2, 2}, 42)]
+		[TestCase(new[] {0, 0, 10 /*stike*/, 10 /*stike*/, 3, 3, 1}, 46)]
+		[TestCase(new[] {0, 0, 10 /*stike*/, 10 /*stike*/, 10 /*stike*/, 2, 2, 2}, 72)]
+		public void Should_sum_two_subsequent_rolls_if_strike(int[] rolls, int total)
 		{
 			// Arrange
 			var scorer = new Scorer();
 
 			// Act
-			scorer.Roll(10);
-			scorer.Roll(2);
-			scorer.Roll(2);
+			foreach (int pins in rolls)
+			{
+				scorer.Roll(pins);
+			}
 			var score = scorer.CalculateScore();
 
 			// Assert
-			score.Should().Be(18);
-		}
-
-		[Test]
-		public void Should_sum_two_subsequent_rolls_if_double()
-		{
-			// Arrange
-			var scorer = new Scorer();
-
-			// Act
-			scorer.Roll(10);
-			scorer.Roll(10);
-			scorer.Roll(2);
-			scorer.Roll(2);
-			scorer.Roll(2);
-			var score = scorer.CalculateScore();
-
-			// Assert
-			score.Should().Be(42);
-		}
-
-		[Test]
-		public void Should_sum_two_subsequent_rolls_if_triple()
-		{
-			// Arrange
-			var scorer = new Scorer();
-
-			// Act
-			scorer.Roll(10);
-			scorer.Roll(10);
-			scorer.Roll(10);
-			scorer.Roll(2);
-			scorer.Roll(2);
-			scorer.Roll(2);
-			var score = scorer.CalculateScore();
-
-			// Assert
-			score.Should().Be(72);
+			score.Should().Be(total);
 		}
 
 		[Test]
@@ -171,7 +141,7 @@ namespace BowlingScorer.Test.ScorerSpecs
 
 			// Assert
 			scorer.Invoking(s => s.Roll(1)).ShouldThrow<MaxNumberOfRollsExceededException>("sdf")
-				.And.Message.Should().Be("Maximum number of rolls exceeded", "Message should be meaningful");
+			      .And.Message.Should().Be("Maximum number of rolls exceeded", "Message should be meaningful");
 		}
 
 		[Test]
@@ -186,7 +156,7 @@ namespace BowlingScorer.Test.ScorerSpecs
 			{
 				scorer.Roll(2);
 			}
-			
+
 			// Assert
 			scorer.Invoking(r => r.Roll(1)).ShouldThrow<MaxNumberOfRollsExceededException>();
 		}
@@ -228,8 +198,8 @@ namespace BowlingScorer.Test.ScorerSpecs
 			var scorer = new Scorer();
 
 			// Act && assert
-			scorer.Invoking(s=>s.Roll(11)).ShouldThrow<ArgumentException>()
-				.And.Message.Should().Be("Max number of available pins is 10");
+			scorer.Invoking(s => s.Roll(11)).ShouldThrow<ArgumentException>()
+			      .And.Message.Should().Be("Max number of available pins is 10");
 		}
 
 		[Test]

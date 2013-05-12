@@ -7,7 +7,7 @@ namespace BowlingScorer
 	{
 		private int _currentRoll;
 		private readonly int?[] _statistics = new int?[21];
-		private const int MAX_NUMBER_OF_PINS = 10;
+		private const int TOTAL_NUMBER_OF_PINS = 10;
 		private const int MAX_NUMBER_OF_ROLLS = 20;
 
 		public int CalculateScore()
@@ -35,12 +35,12 @@ namespace BowlingScorer
 
 		private bool IsStrike(int currentRoll)
 		{
-			return _statistics[currentRoll] == MAX_NUMBER_OF_PINS;
+			return _statistics[currentRoll] == TOTAL_NUMBER_OF_PINS;
 		}
 
 		private bool IsSpare(int currentRoll)
 		{
-			return currentRoll > 0 && _statistics[currentRoll] + _statistics[currentRoll - 1] == MAX_NUMBER_OF_PINS;
+			return currentRoll > 0 && _statistics[currentRoll] + _statistics[currentRoll - 1] == TOTAL_NUMBER_OF_PINS;
 		}
 
 		public void Roll(int pins)
@@ -48,7 +48,7 @@ namespace BowlingScorer
 			if(pins < 0)
 				throw new ArgumentException("Number of pins cannot be negative");
 
-			if(pins > MAX_NUMBER_OF_PINS)
+			if(pins > TOTAL_NUMBER_OF_PINS)
 				throw new ArgumentException("Max number of available pins is 10");
 
 			if (_currentRoll > MAX_NUMBER_OF_ROLLS - 1 + (IsAdditionalRoll(_currentRoll) ? 1 : 0))
